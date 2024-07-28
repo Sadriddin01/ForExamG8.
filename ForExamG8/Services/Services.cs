@@ -110,7 +110,7 @@ namespace ForExamG8.Services
                             CenterServices.GetAbout();
                             break;
                         case 2:
-                            CenterServices.ClearIFile();
+                            CenterServices.DeleteAbout();
                             break;
                         case 3:
                             CenterServices.UpdateAbout();

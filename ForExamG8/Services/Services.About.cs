@@ -10,95 +10,107 @@ namespace ForExamG8.Services
 {
     public partial class Services
     {
-        public static string GetAboutPath()
+        public static string GetAboutPAth()
         {
-            string currentPath=Directory.GetCurrentDirectory();
+            string currentPath = Directory.GetCurrentDirectory();
             currentPath += @"\aboutRestaurant.json";
             return currentPath;
         }
-        public void SaveAbout(List<About>abouts)
+
+
+        public void SaveAbout(List<About> abouts)
         {
-            string serialized=JsonSerializer.Serialize(abouts);
-            File.WriteAllText(GetAboutPath(), serialized);
+            string serialized = JsonSerializer.Serialize(abouts);
+            File.WriteAllText(GetAboutPAth(), serialized);
         }
-        public void DeleteAbout()
-        {
-            File.WriteAllText(GetAboutPath(), string.Empty);
-            Console.WriteLine("Info Cleaned!");
-        }
+
         public void AddAbout()
         {
             List<About> abouts = GetAbout();
 
-            if(abouts.Count > 0)
+            if (abouts.Count > 0)
             {
-                Console.Write("Reference already exists . No new info is added.");
+                Console.WriteLine("Reference already exists. No new information is added.");
                 return;
             }
-            Console.Write("Enter the Restaurant Information and Press 'ENTER' after entering");
-            string aboutName=Console.ReadLine();
+
+            Console.Write("Enter the center information and press 'Enter' after entering: ");
+            string aboutName = Console.ReadLine();
 
             int newId = 1;
 
-            About newAbout = new About
+            About newabout = new About
             {
-                Id=newId,
-                Name=aboutName
+                Id = newId,
+                Name = aboutName,
             };
-            abouts.Add(newAbout);
+
+            abouts.Add(newabout);
             SaveAbout(abouts);
-            Console.WriteLine("Information Added Successfully!");
+
+            Console.WriteLine("Reference added successfully.");
         }
+
         public List<About> GetAbout()
         {
-            if(!File.Exists(GetFoodsPath()))
+            if (File.Exists(GetAboutPAth()))
             {
-                Console.WriteLine("No Data Aviable!");
+                Console.WriteLine("No data available");
             }
-            if(!File.Exists(GetFoodsPath()))
+            if (!File.Exists(GetAboutPAth()))
             {
                 return new List<About>();
             }
 
-            string jsonFromFile=File.ReadAllText(GetFoodsPath());
+
+
+            string jsonFromFile = File.ReadAllText(GetAboutPAth());
             var abouts = string.IsNullOrEmpty(jsonFromFile) ? new List<About>() : JsonSerializer.Deserialize<List<About>>(jsonFromFile);
-            foreach(var about in abouts)
+            foreach (var about in abouts)
             {
-                Console.WriteLine($"Reference:{about.Name}");
+                Console.WriteLine($"Reference: {about.Name}");
             }
             return abouts;
+
         }
-        public void ClearIFile()
+
+        public void DeleteAbout()
         {
-            List<About> abouts= GetAbout();
-            if(abouts.Count>0)
+            List<About> abouts = GetAbout();
+
+            if (abouts.Count == 0)
             {
-                Console.WriteLine("No Data Aviable!");
+                Console.WriteLine("No data available\r\n.");
                 return;
             }
+
             abouts.Clear();
             SaveAbout(abouts);
-            Console.WriteLine("Informations cleared successfully!");
+
+            Console.WriteLine("Reference deleted successfully.");
         }
+
         public void UpdateAbout()
         {
             List<About> abouts = GetAbout();
-            if(abouts.Count==0)
+
+            if (abouts.Count == 0)
             {
-                Console.WriteLine("No Data aviable!");
+                Console.WriteLine("No data available!");
                 return;
             }
 
             About aboutToUpdate = abouts[0];
 
-            Console.Write("Enter New Inforation");
-            string newName=Console.ReadLine();
-            if(!string.IsNullOrEmpty(newName))
+            Console.Write("Enter new information: ");
+            string newName = Console.ReadLine();
+            if (!string.IsNullOrWhiteSpace(newName))
             {
                 aboutToUpdate.Name = newName;
             }
+
             SaveAbout(abouts);
-            Console.WriteLine("Info updated successfully!");
+            Console.WriteLine("Information successfully updated! ");
         }
     }
 }
