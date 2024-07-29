@@ -53,17 +53,10 @@ namespace ForExamG8.Services
 
         public List<About> GetAbout()
         {
-            if (File.Exists(GetAboutPAth()))
-            {
-                Console.WriteLine("No data available");
-            }
             if (!File.Exists(GetAboutPAth()))
             {
                 return new List<About>();
             }
-
-
-
             string jsonFromFile = File.ReadAllText(GetAboutPAth());
             var abouts = string.IsNullOrEmpty(jsonFromFile) ? new List<About>() : JsonSerializer.Deserialize<List<About>>(jsonFromFile);
             foreach (var about in abouts)

@@ -18,8 +18,7 @@ namespace ForExamG8.Services
 
         public void AddFoods()
         {
-            List<Buyurtma> buyurtmalar = GetBuyurtma();
-
+            
         }
     }
 }
